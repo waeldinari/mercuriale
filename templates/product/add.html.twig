@@ -1,0 +1,21 @@
+{% if product is defined %}
+    <h1>Add Product</h1>
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+
+    {# Vérifier si le produit a un fournisseur avant d'afficher son nom #}
+    {% if product.supplier is not null %}
+        <div>
+            Supplier: {{ product.supplier.name }}
+        </div>
+    {% else %}
+        <div>
+            Supplier: N/A
+        </div>
+    {% endif %}
+
+    <button type="submit" class="btn btn-primary">Save</button>
+    {{ form_end(form) }}
+{% else %}
+    <p>Product not available.</p>
+{% endif %}

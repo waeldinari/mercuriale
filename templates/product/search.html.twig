@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Search Results{% endblock %}
+
+{% block body %}
+    <h1>Search Results</h1>
+
+    {# Affichage du formulaire de recherche #}
+    <form action="{{ path('product_search') }}" method="GET">
+        <input type="text" name="q" value="{{ searchTerm }}" placeholder="Search Term">
+        <select name="search_type">
+            <option value="name" {% if searchType == 'name' %}selected{% endif %}>Name</option>
+            <option value="product_code" {% if searchType == 'product_code' %}selected{% endif %}>Product Code</option>
+        </select>
+        <button type="submit">Search</button>
+    </form>
+
+    {# Affichage des résultats de recherche paginés #}
+    {% if pagination.getTotalItemCount() > 0 %}
+        <ul>
+            {% for product in pagination %}
+                <li>{{ product.name }} - {{ product.code }}</li>
+            {% endfor %}
+        </ul>
+
+        {# Affichage de la pagination #}
+        <div class="pagination">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+    {% else %}
+        <p>No results found.</p>
+    {% endif %}
+{% endblock %}

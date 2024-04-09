@@ -1,0 +1,3 @@
+[submodule "submodules/nom-du-sous-module"]
+	path = submodules/nom-du-sous-module
+	url = https://github.com/waeldinari/mercuriale.git

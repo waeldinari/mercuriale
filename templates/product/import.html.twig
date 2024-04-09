@@ -1,0 +1,16 @@
+{# templates/product/import.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Import Mercuriale{% endblock %}
+
+{% block body %}
+    <h1>Import Mercuriale</h1>
+
+    <form method="post" enctype="multipart/form-data">
+        {{ form_widget(form._token) }} {# Ajout du champ du jeton CSRF #}
+        {{ form_row(form.file) }}
+        {{ form_row(form.supplier) }}
+        <button type="submit">Import</button>
+    </form>
+{% endblock %}
