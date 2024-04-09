@@ -1,5 +1,6 @@
 # Projet Mercuriale
 
+
 Ce projet Symfony est une application Web développée pour foodMarket.
 
 ## Requirements

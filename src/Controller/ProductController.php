@@ -2,8 +2,6 @@
 /**
  * Created by PhpStorm.
  * User: DINARI
- * Date: 08/04/2024
- * Time: 04:40
  */
 
 namespace App\Controller;
@@ -138,10 +136,10 @@ class ProductController extends AbstractController
 
             $entityManager = $this->getDoctrine()->getManager();
 
-            // Récupérer l'entité Supplier correspondant à l'ID
+            // On récupére l'entité Supplier correspondant à l'ID
             $supplier = $entityManager->getRepository(Supplier::class)->find($supplierId);
 
-            // Vérifier si le fournisseur existe
+            // Ici je vérifier si le fournisseur existe
             if (!$supplier) {
                 throw $this->createNotFoundException('Supplier not found');
             }
@@ -160,8 +158,6 @@ class ProductController extends AbstractController
     }
 
 
-
-
     private function importMercuriale($file, $supplier)
     {
         $csvData = file_get_contents($file->getPathname());
@@ -170,9 +166,9 @@ class ProductController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
 
         foreach ($rows as $row) {
-            // Vérifier si la ligne n'est pas vide
+            // Check si la ligne n'est pas vide
             if (!empty($row)) {
-                // Vérifier si tous les indices nécessaires existent dans la ligne
+                // Ici check si tous les indices nécessaires existent dans la ligne
                 if (isset($row[0]) && isset($row[1]) && isset($row[2])) {
                     $productCode = $row[0];
                     $productName = $row[1];
@@ -191,19 +187,14 @@ class ProductController extends AbstractController
                     $product->setName($productName);
                     $product->setPrice($price); // Utiliser la valeur convertie en float
                     $product->setSupplier($supplier);
-
-                    // Persiste les changements dans l'entityManager
                     $entityManager->persist($product);
                 } else {
-                    // Gérer le cas où tous les indices nécessaires ne sont pas présents
-                    // Vous pouvez ignorer cette ligne ou effectuer une autre action en conséquence
-                    // Par exemple, enregistrer un message d'erreur ou sauter cette ligne
+                    // todo
                     continue;
                 }
             }
         }
 
-        // Appliquer tous les changements enregistrés dans l'entityManager
         $entityManager->flush();
     }
 

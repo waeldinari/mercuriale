@@ -2,8 +2,6 @@
 /**
  * Created by PhpStorm.
  * User: DINARI
- * Date: 08/04/2024
- * Time: 04:40
  */
 
 namespace App\Entity;
