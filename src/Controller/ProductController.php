@@ -17,7 +17,6 @@ use App\Form\ProductType;
 use Knp\Component\Pager\PaginatorInterface;
 
 
-
 class ProductController extends AbstractController
 {
     /**

@@ -37,7 +37,7 @@ class SupplierRepository extends ServiceEntityRepository
     public function remove(Supplier $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
-
+ 
         if ($flush) {
             $this->getEntityManager()->flush();
         }
