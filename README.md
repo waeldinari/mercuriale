@@ -156,3 +156,28 @@ Pour installer ce projet, suivez les étapes suivantes :
   ```
   config/packages/messenger.yaml
   ```
+  
+## To run the migration of the project
+
+  ```
+  php bin/console doctrine:schema:update --force
+  php bin/console make:migration
+  php bin/console doctrine:migrations:migrate
+  ```
+  
+## The feature involves recording a price change history during mercurial imports.
+     
+   ```
+   php bin/console make:entity Prices
+   php bin/console doctrine:schema:update --force
+   ```
+
+## To define the relationship in the 'Product' entity
+   
+   ```
+       /**
+        * @ORM\ManyToOne(targetEntity="App\Entity\Product", inversedBy="prices")
+        * @ORM\JoinColumn(nullable=false)
+        */
+       private $product;
+   ```
