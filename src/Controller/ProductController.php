@@ -21,7 +21,7 @@ use Knp\Component\Pager\PaginatorInterface;
 class ProductController extends AbstractController
 {
     /**
-     * @Route("/", name="product_index")
+     * @Route("/products", name="product_index")
      */
     public function index(Request $request, PaginatorInterface $paginator): Response
     {

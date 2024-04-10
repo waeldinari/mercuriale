@@ -30,9 +30,11 @@
         </tbody>
     </table>
     {# Pagination #}
-    <div class="pagination">
-        {{ knp_pagination_render(products) }}
-    </div>
+    <nav aria-label="Page navigation">
+        <div class="navigation">
+            {{ knp_pagination_render(products, '@KnpPaginator/Pagination/twitter_bootstrap_v4_pagination.html.twig') }}
+        </div>
+    </nav>
     <a href="{{ path('product_add') }}" class="btn btn-success">Add Product</a>
 
 {% endblock %}

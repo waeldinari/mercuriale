@@ -23,9 +23,9 @@
         {% endfor %}
         </tbody>
     </table>
-
-    {# Pagination #}
-    <div class="pagination">
-        {{ knp_pagination_render(prices) }}
-    </div>
+    <nav aria-label="Page navigation">
+        <div class="navigation">
+            {{ knp_pagination_render(prices, '@KnpPaginator/Pagination/twitter_bootstrap_v4_pagination.html.twig') }}
+        </div>
+    </nav>
 {% endblock %}

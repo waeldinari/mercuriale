@@ -181,5 +181,6 @@ Pour installer ce projet, suivez les étapes suivantes :
         */
        private $product;
    ```
+## Inetgration Template
    
    php bin/console make:controller PricesController
