@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Product;
 use App\Entity\Supplier;
+use App\Entity\Prices;
 use App\Form\MercurialeImportType;
 use App\Form\ProductType;
 use Knp\Component\Pager\PaginatorInterface;
@@ -167,28 +168,36 @@ class ProductController extends AbstractController
         foreach ($rows as $row) {
             // Check si la ligne n'est pas vide
             if (!empty($row)) {
-                // Ici check si tous les indices nécessaires existent dans la ligne
+                // Vérification si tous les indices nécessaires existent dans la ligne
                 if (isset($row[0]) && isset($row[1]) && isset($row[2])) {
                     $productCode = $row[0];
                     $productName = $row[1];
-                    $price = (float) $row[2]; // Convertir la valeur de la chaîne en float
+                    $price = (float) $row[2]; // Ceci est pour convertir la valeur de la chaîne en float
 
                     // Rechercher le produit dans la base de données
                     $product = $this->getDoctrine()->getRepository(Product::class)->findOneBy(['code' => $productCode]);
 
-                    // Si le produit n'existe pas, le créer
+                    // Si le produit n'existe pas, donc je dois le créer
                     if (!$product) {
                         $product = new Product();
                         $product->setCode($productCode);
                     }
 
-                    // Mettre à jour les informations du produit
+                    //Ici la mise à jour les informations du produit
                     $product->setName($productName);
-                    $product->setPrice($price); // Utiliser la valeur convertie en float
+                    $product->setPrice($price);
                     $product->setSupplier($supplier);
                     $entityManager->persist($product);
+
+                    // Ici j'ai créer une nouvelle instance de Prices
+                    $priceEntity = new Prices();
+                    $priceEntity->setProduct($product);
+                    $priceEntity->setPrice($price);
+                    $priceEntity->setTimestamp(new \DateTime()); // Save date timestamp
+
+                    // Persistez l'instance de Prices
+                    $entityManager->persist($priceEntity);
                 } else {
-                    // todo
                     continue;
                 }
             }
