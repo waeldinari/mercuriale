@@ -184,3 +184,6 @@ Pour installer ce projet, suivez les étapes suivantes :
 ## Inetgration Template
    
    php bin/console make:controller PricesController
+   
+   configuration de transport SMTP dans le fichier config/packages/swiftmailer.yaml
+   Installation de composant Mailer de Symfony
