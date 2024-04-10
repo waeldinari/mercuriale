@@ -29,6 +29,10 @@
         {% endfor %}
         </tbody>
     </table>
+    {# Pagination #}
+    <div class="pagination">
+        {{ knp_pagination_render(products) }}
+    </div>
     <a href="{{ path('product_add') }}" class="btn btn-success">Add Product</a>
 
 {% endblock %}

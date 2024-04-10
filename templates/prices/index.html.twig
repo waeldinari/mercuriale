@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+{% block title %}Liste des prix{% endblock %}
+
+{% block body %}
+    <h1>Liste des prix</h1>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Prix</th>
+            <th>Date</th>
+            <th>Produit</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for price in prices %}
+            <tr>
+                <td>{{ price.id }}</td>
+                <td>{{ price.price }}</td>
+                <td>{{ price.timestamp|date('Y-m-d H:i:s') }}</td>
+                <td>{{ price.product.name }}</td> {# Supposons que le champ "name" existe dans l'entité Product #}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {# Pagination #}
+    <div class="pagination">
+        {{ knp_pagination_render(prices) }}
+    </div>
+{% endblock %}
