@@ -16,7 +16,8 @@ use App\Entity\Prices;
 use App\Form\MercurialeImportType;
 use App\Form\ProductType;
 use Knp\Component\Pager\PaginatorInterface;
-
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 
 class ProductController extends AbstractController
 {
@@ -125,7 +126,7 @@ class ProductController extends AbstractController
     /**
      * @Route("/products/import", name="product_import", methods={"GET", "POST"})
      */
-    public function import(Request $request): Response
+    public function import(Request $request, MailerInterface $mailer): Response
     {
         $form = $this->createForm(MercurialeImportType::class);
         $form->handleRequest($request);
@@ -136,16 +137,19 @@ class ProductController extends AbstractController
 
             $entityManager = $this->getDoctrine()->getManager();
 
-            // On récupére l'entité Supplier correspondant à l'ID
+            // On récupère l'entité Supplier correspondant à l'ID
             $supplier = $entityManager->getRepository(Supplier::class)->find($supplierId);
 
-            // Ici je vérifier si le fournisseur existe
+            // Ici je vérifie si le fournisseur existe
             if (!$supplier) {
                 throw $this->createNotFoundException('Supplier not found');
             }
 
             // Traitement de l'importation du fichier CSV
             $this->importMercuriale($file, $supplier);
+
+            // Envoi de l'e-mail de confirmation
+            $this->sendConfirmationEmail($supplier, $mailer);
 
             $this->addFlash('success', 'Mercuriale importée avec succès.');
 
@@ -156,6 +160,19 @@ class ProductController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+// Fonction pour envoyer l'e-mail de confirmation
+    private function sendConfirmationEmail($supplier, MailerInterface $mailer)
+    {
+        $email = (new Email())
+            ->from('wael.dinari5@gmail.com')
+            ->to('wael.dinari5@gmail.com')
+            ->subject('Confirmation d\'importation de la mercuriale')
+            ->html('<p>Votre importation de la mercuriale a été effectuée avec succès.</p>');
+
+        $mailer->send($email);
+    }
+
 
 
     private function importMercuriale($file, $supplier)
